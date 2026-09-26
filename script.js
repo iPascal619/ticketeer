@@ -480,14 +480,16 @@ function updateCartUI() {
         <div class="cart-item-info">
           <h4>${item.name}</h4>
           <p class="cart-item-tier">${item.category}</p>
-          <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
-            <button class="cart-qty-minus" data-id="${item.id}" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
-            <span style="font-size: 0.95rem; font-weight: 500;">${item.quantity}</span>
-            <button class="cart-qty-plus" data-id="${item.id}" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
-          </div>
-          <span class="cart-item-price" style="margin-top: 8px; display: block;">$${item.total.toLocaleString()}</span>
+          <span class="cart-item-price">$${item.total.toLocaleString()}</span>
         </div>
-        <button class="cart-item-remove" data-id="${item.id}" aria-label="Remove item">&times;</button>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 12px;">
+          <button class="cart-item-remove" data-id="${item.id}" aria-label="Remove item" style="margin-top: -4px;">&times;</button>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="cart-qty-minus" data-id="${item.id}" style="width: 20px; height: 20px; border-radius: 4px; border: none; background: var(--f1-red); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">-</button>
+            <span style="font-size: 0.9rem; font-weight: 500; min-width: 14px; text-align: center;">${item.quantity}</span>
+            <button class="cart-qty-plus" data-id="${item.id}" style="width: 20px; height: 20px; border-radius: 4px; border: none; background: var(--f1-red); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">+</button>
+          </div>
+        </div>
       `;
       body.appendChild(div);
     });
