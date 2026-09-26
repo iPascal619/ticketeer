@@ -416,6 +416,7 @@ function initCart() {
         window.location.href = data.checkoutUrl;
       } else {
         errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+        console.error('Checkout error:', data);
         errorEl.style.display = 'block';
         resetPayButton();
       }

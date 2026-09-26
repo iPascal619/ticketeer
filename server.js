@@ -50,38 +50,50 @@ app.post('/api/checkout', async (req, res) => {
 
   const orderId = `sgp_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
+  // Resolve the public URL — always enforce HTTPS for production
+  let publicUrl = process.env.PUBLIC_URL || 'http://localhost:3000';
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    publicUrl = publicUrl.replace(/^http:/, 'https:');
+  }
+
   try {
+    const payload = {
+      externalId: orderId,
+      amount: totalAmount.toFixed(2),
+      currency: 'USD',
+      paymentMethodsKeys: ['*'],
+      backUrl: `${publicUrl}/order-confirmation.html?orderId=${orderId}`,
+      customer: {
+        email: customerEmail || '',
+        fullName: customerName || 'SGP Tickets Customer'
+      },
+      metadata: {
+        orderId: orderId,
+        items: JSON.stringify(items.map(item => ({
+          name: item.name,
+          category: item.category,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          total: item.price * item.quantity
+        }))),
+        description: orderDescription
+      }
+    };
+
+    console.log('📤 Paymegate request payload:', JSON.stringify(payload, null, 2));
+
     const response = await fetch('https://api.paymegate.com/v1/orders', {
       method: 'POST',
       headers: {
         'X-API-Key': apiKey,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        externalId: orderId,
-        amount: totalAmount.toFixed(2),
-        currency: 'USD',
-        paymentMethodsKeys: ['*'],
-        backUrl: `${process.env.PUBLIC_URL || 'http://localhost:3000'}/order-confirmation.html?orderId=${orderId}`,
-        customer: {
-          email: customerEmail || '',
-          fullName: customerName || 'SGP Tickets Customer'
-        },
-        metadata: {
-          orderId: orderId,
-          items: JSON.stringify(items.map(item => ({
-            name: item.name,
-            category: item.category,
-            quantity: item.quantity,
-            unitPrice: item.price,
-            total: item.price * item.quantity
-          }))),
-          description: orderDescription
-        }
-      })
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
+
+    console.log('📥 Paymegate response [HTTP %d]:', response.status, JSON.stringify(data, null, 2));
 
     if (data.success && data.data?.checkoutUrl) {
       return res.json({
@@ -91,10 +103,11 @@ app.post('/api/checkout', async (req, res) => {
         orderId: orderId
       });
     } else {
-      console.error('Paymegate error:', data);
+      console.error('❌ Paymegate order creation failed [HTTP %d]:', response.status, data);
       return res.status(502).json({
         success: false,
-        error: 'Payment gateway returned an error. Please try again.'
+        error: data.message || data.error || 'Payment gateway returned an error. Please try again.',
+        details: data
       });
     }
   } catch (err) {
