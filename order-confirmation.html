@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation — SGP Tickets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Titillium Web', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .confirmation-card {
+      max-width: 560px;
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .status-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 2rem;
+    }
+
+    .status-icon.success {
+      background: rgba(0, 255, 135, 0.1);
+      border: 2px solid #00ff87;
+      color: #00ff87;
+    }
+
+    .status-icon.pending {
+      background: rgba(255, 191, 36, 0.1);
+      border: 2px solid #fbbf24;
+      color: #fbbf24;
+      animation: pulse 2s infinite;
+    }
+
+    .status-icon.error {
+      background: rgba(225, 6, 0, 0.1);
+      border: 2px solid #e10600;
+      color: #e10600;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.95); }
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .order-id {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      word-break: break-all;
+    }
+
+    .order-id strong {
+      color: #fff;
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #e10600;
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      font-family: 'Titillium Web', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #ff1801;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: #fbbf24;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="confirmation-card" id="confirmationCard">
+    <div class="loading-spinner"></div>
+    <h1>Checking Payment...</h1>
+    <p class="message">Please wait while we verify your payment status.</p>
+  </div>
+
+  <script>
+    async function checkOrder() {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('orderId');
+      const card = document.getElementById('confirmationCard');
+
+      if (!orderId) {
+        card.innerHTML = `
+          <div class="status-icon error">✕</div>
+          <h1>No Order Found</h1>
+          <p class="message">No order ID was provided. Please return to the ticket page and try again.</p>
+          <a href="/" class="back-btn">Browse Tickets</a>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/order/' + encodeURIComponent(orderId));
+        const data = await res.json();
+
+        if (data.success && data.data) {
+          const order = Array.isArray(data.data) ? data.data[0] : data.data;
+
+          if (order && order.status === 'PAID') {
+            // Clear the cart
+            localStorage.removeItem('sgp_cart');
+
+            card.innerHTML = `
+              <div class="status-icon success">✓</div>
+              <h1>Payment Confirmed!</h1>
+              <p class="message">Your Singapore Grand Prix 2026 tickets have been confirmed. You'll receive a confirmation email with your e-tickets shortly.</p>
+              <div class="order-id">
+                <strong>Order Reference</strong>
+                ${orderId}
+              </div>
+              <a href="/" class="back-btn">Back to Home</a>
+            `;
+          } else {
+            card.innerHTML = `
+              <div class="status-icon pending">⏳</div>
+              <h1>Payment Pending</h1>
+              <p class="message">Your payment is still being processed. This page will automatically refresh to check the status. You can also return later.</p>
+              <div class="order-id">
+                <strong>Order Reference</strong>
+                ${orderId}
+              </div>
+              <a href="/" class="back-btn">Back to Home</a>
+            `;
+
+            // Re-check in 15 seconds
+            setTimeout(checkOrder, 15000);
+          }
+        } else {
+          card.innerHTML = `
+            <div class="status-icon pending">⏳</div>
+            <h1>Awaiting Payment</h1>
+            <p class="message">We haven't received confirmation yet. If you completed the payment, please wait a moment — this page will update automatically.</p>
+            <div class="order-id">
+              <strong>Order Reference</strong>
+              ${orderId}
+            </div>
+            <a href="/" class="back-btn">Back to Home</a>
+          `;
+
+          setTimeout(checkOrder, 15000);
+        }
+      } catch (err) {
+        card.innerHTML = `
+          <div class="status-icon error">✕</div>
+          <h1>Something Went Wrong</h1>
+          <p class="message">We couldn't check your order status. Please contact support if you completed a payment.</p>
+          <div class="order-id">
+            <strong>Order Reference</strong>
+            ${orderId}
+          </div>
+          <a href="/" class="back-btn">Back to Home</a>
+        `;
+      }
+    }
+
+    checkOrder();
+  </script>
+</body>
+
+</html>

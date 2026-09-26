@@ -582,14 +582,39 @@
         <span>Total</span>
         <span id="cartTotalPrice">$0</span>
       </div>
-      <button class="btn-primary checkout-btn" id="checkoutBtn">
-        <span>Proceed to Checkout</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </svg>
-      </button>
+
+      <!-- Step 1: Proceed button -->
+      <div id="checkoutStep1">
+        <button class="btn-primary checkout-btn" id="checkoutBtn">
+          <span>Proceed to Checkout</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Step 2: Email & Pay -->
+      <div id="checkoutStep2" style="display:none;">
+        <div class="checkout-form">
+          <input type="email" id="checkoutEmail" placeholder="Your email address" required
+            class="checkout-input" />
+          <input type="text" id="checkoutName" placeholder="Full name (optional)"
+            class="checkout-input" />
+          <button class="btn-primary checkout-btn checkout-pay-btn" id="payNowBtn">
+            <span id="payBtnText">Pay Now</span>
+            <svg id="payBtnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            <div id="payBtnSpinner" class="btn-spinner" style="display:none;"></div>
+          </button>
+          <button class="checkout-back-link" id="checkoutBack">← Back to cart</button>
+        </div>
+        <p id="checkoutError" class="checkout-error" style="display:none;"></p>
+      </div>
+
       <div class="cart-trust-badges">
         <span class="cart-trust-badge">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00ff87" stroke-width="2.5">

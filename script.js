@@ -456,9 +456,80 @@ function initCart() {
   $('#cartToggle').addEventListener('click', openCart);
   $('#cartOverlay').addEventListener('click', closeCart);
   $('#cartClose').addEventListener('click', closeCart);
+
+  // Step 1: Show email form
   $('#checkoutBtn').addEventListener('click', () => {
-    alert('🎉 Checkout coming soon!\n\nIn production, this would redirect to a secure payment gateway (Stripe / PayPal).');
+    $('#checkoutStep1').style.display = 'none';
+    $('#checkoutStep2').style.display = 'block';
+    $('#checkoutError').style.display = 'none';
+    $('#checkoutEmail').focus();
   });
+
+  // Back to cart view
+  $('#checkoutBack').addEventListener('click', () => {
+    $('#checkoutStep2').style.display = 'none';
+    $('#checkoutStep1').style.display = 'block';
+  });
+
+  // Step 2: Pay Now — call server → Paymegate
+  $('#payNowBtn').addEventListener('click', async () => {
+    const email = $('#checkoutEmail').value.trim();
+    const name = $('#checkoutName').value.trim();
+    const errorEl = $('#checkoutError');
+
+    // Validate email
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errorEl.textContent = 'Please enter a valid email address.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    // Show loading
+    errorEl.style.display = 'none';
+    $('#payBtnText').textContent = 'Processing...';
+    $('#payBtnIcon').style.display = 'none';
+    $('#payBtnSpinner').style.display = 'inline-block';
+    $('#payNowBtn').disabled = true;
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(item => ({
+            name: item.name,
+            category: item.category,
+            price: item.price,
+            quantity: item.quantity
+          })),
+          customerEmail: email,
+          customerName: name || undefined
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.checkoutUrl) {
+        // Redirect to Paymegate hosted checkout
+        window.location.href = data.checkoutUrl;
+      } else {
+        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+        errorEl.style.display = 'block';
+        resetPayButton();
+      }
+    } catch (err) {
+      errorEl.textContent = 'Network error. Please check your connection and try again.';
+      errorEl.style.display = 'block';
+      resetPayButton();
+    }
+  });
+}
+
+function resetPayButton() {
+  $('#payBtnText').textContent = 'Pay Now';
+  $('#payBtnIcon').style.display = '';
+  $('#payBtnSpinner').style.display = 'none';
+  $('#payNowBtn').disabled = false;
 }
 
 function openCart() {

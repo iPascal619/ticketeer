@@ -2157,6 +2157,78 @@ ul, ol {
   box-shadow: 0 0 30px rgba(225, 6, 0, 0.4);
 }
 
+/* ---------- Checkout Form ---------- */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.checkout-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.checkout-input:focus {
+  border-color: var(--f1-red);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.08);
+}
+
+.checkout-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.checkout-pay-btn {
+  position: relative;
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.checkout-back-link {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  padding: var(--space-xs) 0;
+  transition: color var(--transition-fast);
+  text-align: center;
+}
+
+.checkout-back-link:hover {
+  color: var(--text-primary);
+}
+
+.checkout-error {
+  color: var(--f1-red-light);
+  font-size: var(--text-xs);
+  margin-top: var(--space-xs);
+  padding: 8px 12px;
+  background: rgba(225, 6, 0, 0.08);
+  border: 1px solid rgba(225, 6, 0, 0.2);
+  border-radius: var(--radius-xs);
+}
+
 /* ---------- Ticket Filter Bar ---------- */
 .tickets-filter-bar {
   display: flex;
