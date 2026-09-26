@@ -154,9 +154,15 @@ app.get('/api/order/:orderId', async (req, res) => {
   }
 });
 
-// ==================== START SERVER ====================
-app.listen(PORT, () => {
-  console.log(`\n🏎️  SGP Tickets server running at http://localhost:${PORT}`);
-  console.log(`   Static files served from: ${__dirname}`);
-  console.log(`   Paymegate API Key: ${process.env.PAYMEGATE_API_KEY ? '✅ Configured' : '❌ Not set — add to .env'}\n`);
-});
+// ==================== START SERVER / VERCEL EXPORT ====================
+// Only start the server locally if not running in Vercel Serverless
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n🏎️  SGP Tickets server running at http://localhost:${PORT}`);
+    console.log(`   Static files served from: ${__dirname}`);
+    console.log(`   Paymegate API Key: ${process.env.PAYMEGATE_API_KEY ? '✅ Configured' : '❌ Not set — add to .env'}\n`);
+  });
+}
+
+// Export the Express API for Vercel
+module.exports = app;
