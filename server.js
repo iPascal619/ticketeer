@@ -103,10 +103,23 @@ app.post('/api/checkout', async (req, res) => {
         orderId: orderId
       });
     } else {
-      console.error('❌ Paymegate order creation failed [HTTP %d]:', response.status, data);
+      console.error('❌ Paymegate order creation failed [HTTP %d]:', response.status, JSON.stringify(data, null, 2));
+
+      // Extract a human-readable error string (Paymegate may return objects)
+      let errorMsg = 'Payment gateway returned an error. Please try again.';
+      if (typeof data.message === 'string') {
+        errorMsg = data.message;
+      } else if (typeof data.error === 'string') {
+        errorMsg = data.error;
+      } else if (typeof data.message === 'object' && data.message !== null) {
+        errorMsg = JSON.stringify(data.message);
+      } else if (typeof data.error === 'object' && data.error !== null) {
+        errorMsg = JSON.stringify(data.error);
+      }
+
       return res.status(502).json({
         success: false,
-        error: data.message || data.error || 'Payment gateway returned an error. Please try again.',
+        error: errorMsg,
         details: data
       });
     }
