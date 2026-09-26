@@ -479,12 +479,43 @@ function updateCartUI() {
         <span class="cart-item-flag">🇸🇬</span>
         <div class="cart-item-info">
           <h4>${item.name}</h4>
-          <p class="cart-item-tier">${item.category} × ${item.quantity}</p>
-          <span class="cart-item-price">$${item.total.toLocaleString()}</span>
+          <p class="cart-item-tier">${item.category}</p>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+            <button class="cart-qty-minus" data-id="${item.id}" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
+            <span style="font-size: 0.95rem; font-weight: 500;">${item.quantity}</span>
+            <button class="cart-qty-plus" data-id="${item.id}" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+          </div>
+          <span class="cart-item-price" style="margin-top: 8px; display: block;">$${item.total.toLocaleString()}</span>
         </div>
         <button class="cart-item-remove" data-id="${item.id}" aria-label="Remove item">&times;</button>
       `;
       body.appendChild(div);
+    });
+
+    body.querySelectorAll('.cart-qty-minus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const index = cart.findIndex(i => i.id === id);
+        if (index !== -1 && cart[index].quantity > 1) {
+          cart[index].quantity--;
+          cart[index].total = cart[index].quantity * cart[index].price;
+          saveCart();
+          updateCartUI();
+        }
+      });
+    });
+
+    body.querySelectorAll('.cart-qty-plus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const index = cart.findIndex(i => i.id === id);
+        if (index !== -1 && cart[index].quantity < 10) {
+          cart[index].quantity++;
+          cart[index].total = cart[index].quantity * cart[index].price;
+          saveCart();
+          updateCartUI();
+        }
+      });
     });
 
     body.querySelectorAll('.cart-item-remove').forEach(btn => {
