@@ -5,145 +5,24 @@
 
 // ==================== TICKET PACKAGES ====================
 const TICKETS = [
-  {
-    id: 1,
-    name: "Zone 4 Walkabout",
-    category: "General Admission",
-    tag: "Best Value",
-    tagColor: "#4ade80",
-    price: 298,
-    original: 380,
-    description: "Roaming access across Zone 4 with great vantage points at Turns 14–17. Perfect for first-timers.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Standing access across Zone 4",
-      "Turns 14, 15, 16 & 17 viewing",
-      "Giant screen viewing areas",
-      "Access to Zone 4 food village",
-      "Free entertainment & concerts",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "available",
-    stock: "Limited stock"
-  },
-  {
-    id: 2,
-    name: "Zone 1 Walkabout",
-    category: "General Admission",
-    tag: "Popular",
-    tagColor: "#60a5fa",
-    price: 448,
-    original: 560,
-    description: "Premium roaming access to Zone 1 — the heart of the action near the Pit Straight and Padang grandstand area.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Standing access across Zone 1",
-      "Pit straight & Turns 1–3 views",
-      "Close to Padang main stage",
-      "Giant screen viewing areas",
-      "Access to Zone 1 food & bars",
-      "Free entertainment & concerts",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "selling-fast",
-    stock: "Only 12 left"
-  },
-  {
-    id: 3,
-    name: "Turn 1 Grandstand",
-    category: "Grandstand",
-    tag: "Great Views",
-    tagColor: "#fbbf24",
-    price: 698,
-    original: 850,
-    description: "Reserved seat in the Turn 1 Grandstand — witness the first-corner drama of every session up close.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Reserved numbered seat",
-      "Elevated Turn 1 viewing position",
-      "See braking zone & overtakes",
-      "Covered seating area",
-      "Complimentary seat cushion",
-      "Access to all entertainment zones",
-      "Free concerts & fan activities",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "available",
-    stock: "Seats available"
-  },
-  {
-    id: 4,
-    name: "Pit Grandstand",
-    category: "Grandstand",
-    tag: "Premium",
-    tagColor: "#f97316",
-    price: 898,
-    original: 1100,
-    description: "The ultimate grandstand — reserved seat overlooking the pit lane with views of pit stops and the start/finish straight.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Reserved numbered seat",
-      "Direct pit lane views",
-      "Start/finish straight action",
-      "Watch live pit stops",
-      "Covered & elevated seating",
-      "Complimentary seat cushion & earplugs",
-      "Access to all entertainment zones",
-      "Free concerts & fan activities",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "selling-fast",
-    stock: "Only 8 left"
-  },
-  {
-    id: 5,
-    name: "Stamford Grandstand",
-    category: "Grandstand",
-    tag: "Skyline Views",
-    tagColor: "#a78bfa",
-    price: 788,
-    original: 950,
-    description: "Elevated views of the high-speed section near Stamford Road with the stunning Marina Bay Sands as your backdrop.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Reserved numbered seat",
-      "High-speed section viewing",
-      "Iconic Marina Bay Sands backdrop",
-      "Covered seating area",
-      "Complimentary seat cushion",
-      "Access to all entertainment zones",
-      "Free concerts & fan activities",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "available",
-    stock: "Seats available"
-  },
-  {
-    id: 6,
-    name: "Paddock Club Hospitality",
-    category: "VIP",
-    tag: "🏆 Ultimate",
-    tagColor: "#e63946",
-    price: 3899,
-    original: 4800,
-    description: "The pinnacle of Singapore GP luxury. All-inclusive hospitality directly above the pit lane with driver access and gourmet dining.",
-    features: [
-      "3-day weekend access (Fri–Sun)",
-      "Air-conditioned Paddock Club suite",
-      "Balcony seats directly above pit lane",
-      "Guided pit lane walk",
-      "Team garage & paddock access",
-      "Meet & greet with F1 drivers",
-      "Gourmet multi-course dining",
-      "Premium open bar all weekend",
-      "Exclusive Paddock Club gift pack",
-      "VIP concierge service",
-      "Dedicated parking & lounge",
-      "Digital ticket — instant delivery"
-    ],
-    availability: "selling-fast",
-    stock: "Only 3 left"
-  }
+  { id: 1, name: "Zone 4 Walkabout", category: "General Admission", tag: "Best Value", tagColor: "#4ade80", price: 548, original: 685, description: "Roaming access across Zone 4 with great vantage points. Perfect for first-timers.", features: ["3-day weekend access (Fri–Sun)", "Standing access across Zone 4", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 2, name: "Premier Walkabout", category: "General Admission", tag: "Best Value", tagColor: "#60a5fa", price: 728, original: 910, description: "Premium roaming access to the heart of the action.", features: ["3-day weekend access (Fri–Sun)", "Standing access across Zone 1", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 3, name: "Stamford Grandstand", category: "Grandstand", tag: "Great Views", tagColor: "#a78bfa", price: 608, original: 760, description: "Elevated views of the high-speed section near Stamford Road.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 4, name: "Padang Grandstand", category: "Grandstand", tag: "Great Views", tagColor: "#fbbf24", price: 738, original: 922, description: "Reserved seat in the Padang Grandstand — witness the drama of every session up close.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 5, name: "Connaught Grandstand", category: "Grandstand", tag: "Great Views", tagColor: "#f97316", price: 738, original: 922, description: "Reserved seat in the Connaught Grandstand with stunning views.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 6, name: "Empress Grandstand", category: "Grandstand", tag: "Great Views", tagColor: "#fbbf24", price: 738, original: 922, description: "Reserved seat in the Empress Grandstand in the heart of the circuit.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 7, name: "Republic Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#a78bfa", price: 988, original: 1235, description: "Reserved seat in the Republic Grandstand with excellent visibility.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 8, name: "Raffles Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#fbbf24", price: 1208, original: 1510, description: "Premium grandstand seating with access to exclusive food zones.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "available", stock: "Seats available" },
+  { id: 9, name: "Bayfront Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#f97316", price: 1428, original: 1785, description: "Incredible bay views while you watch the cars fly by.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 10, name: "Promenade Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#a78bfa", price: 1428, original: 1785, description: "Feel the speed from the Promenade Grandstand.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 11, name: "Skyline Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#fbbf24", price: 1568, original: 1960, description: "Watch the race with the breathtaking Singapore skyline behind you.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 12, name: "Turn 1 Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#f97316", price: 1698, original: 2122, description: "Witness the first-corner drama of every session up close.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 13, name: "Pit Exit Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#a78bfa", price: 1698, original: 2122, description: "See the cars accelerating out of the pit lane into the first corner.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 14, name: "Turn 2 Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#fbbf24", price: 1798, original: 2247, description: "Watch the cars maneuver through the tricky Turn 2.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 15, name: "Marina Bay Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#f97316", price: 1798, original: 2247, description: "Iconic views over the bay as cars brake hard.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 16, name: "Pit Grandstand", category: "Grandstand", tag: "Premium", tagColor: "#a78bfa", price: 1798, original: 2247, description: "Reserved seat overlooking the pit lane and the start/finish straight.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 17, name: "Super Pit Grandstand", category: "Grandstand", tag: "🏆 Ultimate", tagColor: "#fbbf24", price: 2498, original: 3122, description: "The best seats in the house directly across from the team garages.", features: ["3-day weekend access (Fri–Sun)", "Reserved numbered seat", "Access to entertainment zones", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Limited stock" },
+  { id: 18, name: "Driver's Right Lounge", category: "VIP", tag: "🏆 Ultimate", tagColor: "#e63946", price: 5110, original: 6387, description: "All-inclusive hospitality with exclusive driver access and gourmet dining.", features: ["3-day weekend access (Fri–Sun)", "Air-conditioned suite", "Gourmet dining & open bar", "Digital ticket — instant delivery"], availability: "selling-fast", stock: "Only 3 left" }
 ];
 
 // ==================== TESTIMONIALS DATA ====================
@@ -197,6 +76,7 @@ let cart = JSON.parse(localStorage.getItem('sgp_cart')) || [];
 let selectedQuantity = 1;
 let currentTicket = null;
 let carouselIndex = 0;
+let showAllTickets = false;
 
 // ==================== DOM HELPERS ====================
 const $ = (sel) => document.querySelector(sel);
@@ -234,18 +114,31 @@ function getFilteredTickets() {
 function renderTicketCards() {
   const grid = $('#ticketsGrid');
   const noResults = $('#ticketsNoResults');
+  const loadMoreBtn = $('#loadMoreBtn');
   const filtered = getFilteredTickets();
 
   if (filtered.length === 0) {
     grid.style.display = 'none';
     noResults.style.display = 'flex';
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     return;
   }
 
   grid.style.display = '';
   noResults.style.display = 'none';
 
-  grid.innerHTML = filtered.map((ticket, i) => {
+  const shouldLimit = !showAllTickets && activeFilter === 'all' && searchQuery === '';
+  const displayTickets = shouldLimit ? filtered.slice(0, 6) : filtered;
+
+  if (loadMoreBtn) {
+    if (shouldLimit && filtered.length > 6) {
+      loadMoreBtn.style.display = 'inline-flex';
+    } else {
+      loadMoreBtn.style.display = 'none';
+    }
+  }
+
+  grid.innerHTML = displayTickets.map((ticket, i) => {
     const discount = Math.round((1 - ticket.price / ticket.original) * 100);
     return `
     <div class="ticket-card animate-on-scroll" data-ticket-id="${ticket.id}" style="animation-delay: ${i * 0.07}s">
@@ -332,10 +225,19 @@ function initTicketFilters() {
     searchInput.value = '';
     searchQuery = '';
     activeFilter = 'all';
+    showAllTickets = false;
     tabs.forEach(t => t.classList.remove('active'));
     tabs[0].classList.add('active');
     renderTicketCards();
   });
+
+  const loadMoreBtn = $('#loadMoreBtn');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      showAllTickets = true;
+      renderTicketCards();
+    });
+  }
 }
 
 // ==================== TICKET MODAL ====================
