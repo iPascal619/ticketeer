@@ -2751,3 +2751,164 @@ ul, ol {
     transform: scale(0.98);
   }
 }
+
+/* ============================================================
+   Partners Section — Infinite Scrolling Logo Carousel
+   ============================================================ */
+
+.partners-section {
+  padding: var(--space-5xl) 0 var(--space-4xl);
+  background: var(--bg-primary);
+  overflow: hidden;
+  position: relative;
+}
+
+.partners-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+}
+
+.partners-carousel-wrapper {
+  position: relative;
+  margin-top: var(--space-xl);
+}
+
+/* Edge fade masks */
+.partners-carousel-wrapper::before,
+.partners-carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partners-carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg-primary) 0%, transparent 100%);
+}
+
+.partners-carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg-primary) 0%, transparent 100%);
+}
+
+.partners-carousel {
+  display: flex;
+  width: max-content;
+  animation: partners-scroll-left 40s linear infinite;
+}
+
+.partners-carousel.reverse {
+  animation: partners-scroll-right 45s linear infinite;
+}
+
+.partners-carousel:hover {
+  animation-play-state: paused;
+}
+
+.partners-track {
+  display: flex;
+  gap: var(--space-lg);
+  padding: 0 var(--space-sm);
+}
+
+.partner-logo {
+  flex-shrink: 0;
+  width: 160px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.partner-logo-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 12px 16px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.partner-logo-inner svg {
+  width: 100%;
+  height: 100%;
+}
+
+.partner-logo:hover .partner-logo-inner {
+  opacity: 1;
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
+  box-shadow: 0 0 20px rgba(225, 6, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Keyframes for infinite scroll */
+@keyframes partners-scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes partners-scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .partners-section {
+    padding: var(--space-4xl) 0 var(--space-3xl);
+  }
+
+  .partner-logo {
+    width: 130px;
+    height: 60px;
+  }
+
+  .partners-carousel-wrapper::before,
+  .partners-carousel-wrapper::after {
+    width: 60px;
+  }
+
+  .partners-carousel {
+    animation-duration: 30s;
+  }
+
+  .partners-carousel.reverse {
+    animation-duration: 35s;
+  }
+}
+
+@media (max-width: 480px) {
+  .partner-logo {
+    width: 110px;
+    height: 52px;
+  }
+
+  .partners-carousel-wrapper::before,
+  .partners-carousel-wrapper::after {
+    width: 40px;
+  }
+}
