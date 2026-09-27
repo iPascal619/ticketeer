@@ -6,6 +6,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const { sendTicketEmail } = require('./emailService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -133,10 +134,13 @@ app.post('/api/checkout', async (req, res) => {
 });
 
 // ==================== PAYMEGATE WEBHOOK ====================
-app.post('/api/webhook/paymegate', express.json(), (req, res) => {
+app.post('/api/webhook/paymegate', express.json(), async (req, res) => {
   const event = req.body;
 
   console.log('📩 Paymegate webhook received:', event.type);
+
+  // Always respond 200 immediately to acknowledge receipt
+  res.status(200).json({ received: true });
 
   if (event.type === 'order.paid') {
     console.log('✅ Order PAID:', {
@@ -149,11 +153,27 @@ app.post('/api/webhook/paymegate', express.json(), (req, res) => {
       paidAt: event.paidAt
     });
 
-    // TODO: In production, update your database, send confirmation email, etc.
-  }
+    // Send e-ticket confirmation email
+    try {
+      const emailResult = await sendTicketEmail({
+        customerEmail: event.customerEmail,
+        customerName: event.customerFullName || event.customerEmail?.split('@')[0],
+        orderId: event.externalId,
+        items: event.metadata?.items,
+        totalAmount: event.amount,
+        currency: event.currency,
+        paidAt: event.paidAt
+      });
 
-  // Always respond 200 to acknowledge receipt
-  res.status(200).json({ received: true });
+      if (emailResult.success) {
+        console.log('📧 Ticket email delivered for order', event.externalId);
+      } else {
+        console.error('📧 Email delivery failed for order', event.externalId, emailResult.error);
+      }
+    } catch (emailErr) {
+      console.error('📧 Email send crashed for order', event.externalId, emailErr);
+    }
+  }
 });
 
 // ==================== ORDER STATUS (for confirmation page) ====================
