@@ -3,9 +3,9 @@
    Sends branded e-ticket confirmation emails after payment
    ============================================================ */
 
-const { Resend } = require('resend');
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Email sending is temporarily disabled
+// const { Resend } = require('resend');
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Your brand sender — must match a verified domain in Resend,
 // or use the default onboarding address for testing
@@ -234,20 +234,21 @@ async function sendTicketEmail({ customerEmail, customerName, orderId, items, to
   });
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: customerEmail,
-      subject: `🏎️ Your SGP Tickets — Order ${orderId} Confirmed`,
-      html: html
-    });
+    // Email sending is disabled
+    // const { data, error } = await resend.emails.send({
+    //   from: FROM_EMAIL,
+    //   to: customerEmail,
+    //   subject: `🏎️ Your SGP Tickets — Order ${orderId} Confirmed`,
+    //   html: html
+    // });
+    
+    // if (error) {
+    //   console.error('❌ Resend email error:', error);
+    //   return { success: false, error };
+    // }
 
-    if (error) {
-      console.error('❌ Resend email error:', error);
-      return { success: false, error };
-    }
-
-    console.log('✅ Ticket email sent to', customerEmail, '— Resend ID:', data.id);
-    return { success: true, emailId: data.id };
+    console.log('✅ Ticket email mocked for', customerEmail);
+    return { success: true, emailId: 'mock' };
   } catch (err) {
     console.error('❌ Failed to send ticket email:', err);
     return { success: false, error: err.message };
