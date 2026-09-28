@@ -3,9 +3,9 @@
    Sends branded e-ticket confirmation emails after payment
    ============================================================ */
 
-// const { Resend } = require('resend');
-// const resend = new Resend(process.env.RESEND_API_KEY);
-const resend = { emails: { send: async () => ({ data: { id: 'mock' } }) } };
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Your brand sender — must match a verified domain in Resend,
 // or use the default onboarding address for testing
